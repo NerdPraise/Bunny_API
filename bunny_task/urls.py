@@ -18,5 +18,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('todolist.urls'))
+    path('v1/', include('todolist.urls', namespace='todolist'))
 ]

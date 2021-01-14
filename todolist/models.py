@@ -22,3 +22,6 @@ class UserTask(models.Model):
     description = models.CharField(max_length=50)
     state = models.CharField(max_length=2, choices=STATES_CHOICES)
     user_id = models.ForeignKey('User', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.description
