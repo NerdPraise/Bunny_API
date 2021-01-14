@@ -1,6 +1,9 @@
 from django.urls import path
 
-
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 from .views import (UserAPIView, UserListView,
                     UserTaskRUDAPIView, UserTaskCreateListAPIView)
 
@@ -17,4 +20,9 @@ urlpatterns = [
 
     path('tasks/<int:task_id>/', UserTaskRUDAPIView.as_view(),
          name='task-retrieve-update-delete'),
+
+    path('auth/login/', TokenObtainPairView.as_view(),
+         name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(),
+         name='token_refresh'),
 ]

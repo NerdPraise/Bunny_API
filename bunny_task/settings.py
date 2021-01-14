@@ -14,6 +14,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 import os
+import django_heroku
 
 
 load_dotenv()
@@ -75,6 +76,13 @@ TEMPLATES = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+
+}
+
 WSGI_APPLICATION = 'bunny_task.wsgi.application'
 
 AUTH_USER_MODEL = 'todolist.User'
@@ -126,3 +134,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+django_heroku.settings(locals())
