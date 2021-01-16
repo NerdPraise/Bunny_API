@@ -20,7 +20,8 @@ class UserTask(models.Model):
         ('DN', 'DONE')
     )
     description = models.CharField(max_length=50)
-    state = models.CharField(max_length=2, choices=STATES_CHOICES)
+    state = models.CharField(
+        max_length=2, choices=STATES_CHOICES, default='TD')
     user_id = models.ForeignKey('User', on_delete=models.CASCADE)
 
     def __str__(self):

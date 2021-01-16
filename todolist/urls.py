@@ -19,7 +19,7 @@ urlpatterns = [
     path('task/<int:user_id>/',
          UserTaskCreateListAPIView.as_view(), name='task-create-list'),
 
-    path('tasks/<int:task_id>/', UserTaskRUDAPIView.as_view(),
+    path('tasks/<int:task_id>', UserTaskRUDAPIView.as_view(),
          name='task-retrieve-update-delete'),
 
     path('auth/login/', TokenObtainPairView.as_view(),
