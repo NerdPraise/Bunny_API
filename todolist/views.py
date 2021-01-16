@@ -41,6 +41,26 @@ class UserTaskRUDAPIView(
     lookup_url_kwarg = 'task_id'
     permission_classes = (IsAuthenticated,)
 
+    def put(self, *args, **kwargs):
+        # to allow every user access
+        task_id = self.kwargs['task_id']
+        try:
+            task_instance = UserTask.objects.get(pk=task_id)
+            user = task_instance.user_id.pk
+        except UserTask.DoesNotExist:
+            return Response({'message': 'task doesn\'t exist'})
+
+        data = self.request.data
+        data = {**data, 'user_id': user}
+        data['description'] = data['description'][0]
+
+        serializer = UserTaskSerializer(task_instance, data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserTaskCreateListAPIView(generics.ListCreateAPIView):
     serializer_class = UserTaskSerializer
