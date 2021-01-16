@@ -1,13 +1,26 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view
 
 from .models import User, UserTask
 from .serializers import UserSerializer, UserTaskSerializer
 
 
+@api_view(['GET'])
+def get_user_profile(request):
+    if request.user.is_authenticated:
+        user = request.user
+        serialized_user = UserSerializer(user)
+        return Response(serialized_user.data, status=status.HTTP_200_OK)
+    return Response({'message': 'No user is logged in'}, status=status.HTTP_400_BAD_REQUEST)
+
+
 class UserAPIView(generics.CreateAPIView,
                   generics.RetrieveUpdateDestroyAPIView):
+    """
+    Retrieve, Update and Delete every user
+    """
     serializer_class = UserSerializer
     lookup_field = 'pk'
     permission_classes = (IsAuthenticated,)

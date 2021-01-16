@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 from dotenv import load_dotenv
+from datetime import timedelta
 
 import os
 import django_heroku
@@ -47,11 +48,13 @@ INSTALLED_APPS = [
     'todolist',
     'rest_framework',
     'drf_yasg',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -115,6 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+CORS_ALLOWED_ORIGINS = ['http://localhost:3000']
 
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
@@ -147,5 +151,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+jwt_access_token_timeline = timedelta(hours=24)
+jwt_refresh_token_timeline = timedelta(days=7)
 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': jwt_access_token_timeline,
+    'REFRESH_TOKEN_LIFETIME': jwt_refresh_token_timeline,
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True
+}
 django_heroku.settings(locals())

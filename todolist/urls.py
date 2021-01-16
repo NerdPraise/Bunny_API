@@ -4,7 +4,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from .views import (UserAPIView, UserListView,
+from .views import (get_user_profile, UserAPIView, UserListView,
                     UserTaskRUDAPIView, UserTaskCreateListAPIView)
 
 app_name = 'todolist'
@@ -13,6 +13,7 @@ urlpatterns = [
     path('user/create/', UserAPIView.as_view(), name='user-create'),
     path('user/<int:user_id>', UserAPIView.as_view(),
          name='user-retrieve-update-delete'),
+    path('user/profile', get_user_profile, name='user-profile'),
 
     # User Task
     path('task/<int:user_id>/',
